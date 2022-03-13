@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  align-items: center;
+  height: 100%;
+  font-size: 1.5rem;
+}
+.start-btn {
+  color: white;
+  background: purple;
+  border: none;
+  width: 130px;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.mainH2 {
+  border-bottom: 2px solid black;
+  margin: 90px 20px;
+}
+
+.containerDiv {
+  width: 85vw;
+  max-width: 800px;
+  height: 600px;
+  border-radius: 10px;
+  border: 2px solid grey;
+}
