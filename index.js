@@ -57,7 +57,7 @@ let incrementer = () => {
 }
 
 let setQuestions = (arr, reset, item) => {
-    if (reset && item ) return reset(item)  
+    if (reset && item ) reset(item)  
     let index = num;
     let { results } = mainArr[0];
     let [h2, li1, li2, li3, li4] = arr;
@@ -90,14 +90,13 @@ const clickFunctionforAnswers = (arr, correctAnswer, questionsArr) => {
     function reset(item) {
         item.classList.remove("green")
         item.classList.remove("red")
-
     }
     arr.map(item => {
         item.addEventListener("click", () => { 
             arr.forEach(item => item.classList.remove("main-li"))
             checkWin(item)
             incrementer();
-            setQuestions(questionsArr)
+            setTimeout(()=>setQuestions(questionsArr, reset, item), 2000)
 
         })
     })
