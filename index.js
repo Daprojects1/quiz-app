@@ -4,8 +4,9 @@ let contentDiv = document.querySelector(".main-content");
 
 let index = 0;
 let mainArr = [];
+let appendeeItems;
 let correctNumber = 0;
-let grabQuestions = (url) => {
+const grabQuestions = (url) => {
     fetch(url)
     .then(result => result.json())
         .then(data => mainArr.push(data))
@@ -15,7 +16,7 @@ let grabQuestions = (url) => {
 }
 
 let interval; 
-let checkIfArrIsEmpty = () => {
+const checkIfArrIsEmpty = () => {
     if (mainArr.length === 0) {
         wrapper.innerText = "Loading ..."
     } else {
@@ -25,28 +26,28 @@ let checkIfArrIsEmpty = () => {
     }
 }
 
-let valueCreator = (name) => {
+const checkIndex = (arrayLength) => {
+    // index is the value that changes each time an answer is clicked
+    return (index >= arrayLength) ? wrapper.innerHTML = `<h1>You have completed the Quiz with ${correctNumber} points!</h1>` : false;    
+}
+const valueCreator = (name) => {
     return document.createElement(name)
 }
 
-let appender = ( appendee,...items) => {
+const appender = ( appendee,...items) => {
     items.map(item=> appendee.appendChild(item))
 }
 
-let createBoard = () => {
+const createBoard = () => {
     let containerDiv = valueCreator("div");
     containerDiv.classList.add("containerDiv")
     let h2 = valueCreator("h2");
     h2.classList.add("mainH2");
-    let li1 = valueCreator("li");
-    let li2 = valueCreator("li");
-    let li3 = valueCreator("li");
-    let li4 = valueCreator("li");
     let containerUl = valueCreator("ul");
     containerUl.classList.add("SCD")
-    let questionsArr = [h2, li1, li2, li3, li4]
-    setQuestions(questionsArr)
-    appender(containerUl, li1, li2, li3, li4)
+    let questionsH2 = h2
+    appendeeItems = [questionsH2, containerUl]
+    setQuestions()
     appender(containerDiv, h2, containerUl)
     appender(wrapper, containerDiv);
 }
@@ -55,57 +56,62 @@ let createBoard = () => {
 //     return num+= 1
 // }, 5000)
 
-let setQuestions = (arr) => {
+let setQuestions = () => {
     let { results } = mainArr[0];
     const resultsLength = results.length; 
-    let [h2, li1, li2, li3, li4] = arr;
-    let answersDiv = [li1, li2, li3, li4]
     let { question, correct_answer, incorrect_answers } = results[index];
-    h2.innerHTML = question;
+    let [questionsH2, containerUl] = appendeeItems;
+    questionsH2.innerHTML = question;
     let questionsArr = [correct_answer, ...incorrect_answers].sort(() => Math.random() - 0.5)
-    clickFunctionforAnswers(answersDiv, correct_answer, arr, resultsLength);
-    loopthroughQuestions(answersDiv, questionsArr);
+    loopthroughQuestions(questionsArr, correct_answer, resultsLength)
     index+=1
 }
 
-const loopthroughQuestions = (divs, questions) => {
-    for (let div of divs) {
-        div.innerHTML = "";
-        div.classList.add("main-li")
+const loopthroughQuestions = (questions, correctAnswer, resultsLength) => {
+    let [questionsH2, containerUl] = appendeeItems
+    containerUl.innerHTML = "";
+    let listItems = questions.map(question => valueCreator("li"));
+    appender(containerUl, ...listItems)
+    for (let list of listItems) {
+        list.innerText = "";
+        list.classList.add("main-li")
         for (let question of questions) {
-            div.innerHTML = question;
+            list.innerHTML = question;
             questions.splice(questions.indexOf(question), 1)
             break;
         }
     }
+    clickFunctionforAnswers(listItems, correctAnswer, resultsLength);
 }
 
-const clickFunctionforAnswers = (arr, correctAnswer, questionsArr, resultsLength) => {
+const clickFunctionforAnswers = (listItems, correctAnswer, resultsLength) => {
     console.log(correctAnswer)
-    function checkWin(item) {
-    console.log(item.innerHTML)
+    const checkWin = (e, item) =>{
     if (item.innerHTML === correctAnswer){
-        correctNumber+1
+        correctNumber += 1;
         item.classList.add("green")
-        return;
     } else return item.classList.add("red");
     
 }
-function reset(item) {
+const reset=(item) =>{
     item.classList.remove("green")
     item.classList.remove("red");
 }
-function updateQs(item) {
+const updateQs =(item) =>{
     reset(item)
-    setQuestions(questionsArr)              
+    setQuestions()              
 }
-arr.map(item => {
-    item.addEventListener("click", (e) => { 
-        e.stopImmediatePropagation();
-        arr.map(item => item.classList.remove("main-li"))
-        checkWin(item)
-        setTimeout(() => updateQs(item), 500)
-    })
+    
+const runCheck = (e, item) => {
+    e.stopPropagation()
+    e.stopImmediatePropagation();
+    listItems.map(item => item.classList.remove("main-li"))
+    checkWin(e, item)
+    if (!checkIndex(resultsLength)) setTimeout(() => updateQs(item), 500)
+
+} 
+listItems.map(item => {
+    item.addEventListener("click", (e) => { runCheck(e, item) })
 })
 
 }
