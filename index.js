@@ -52,9 +52,6 @@ const createBoard = () => {
     appender(wrapper, containerDiv);
 }
 
-// setInterval(() => {
-//     return num+= 1
-// }, 5000)
 
 let setQuestions = () => {
     let { results } = mainArr[0];
@@ -85,7 +82,6 @@ const loopthroughQuestions = (questions, correctAnswer, resultsLength) => {
 }
 
 const clickFunctionforAnswers = (listItems, correctAnswer, resultsLength) => {
-    console.log(correctAnswer)
     const checkWin = (e, item) =>{
     if (item.innerHTML === correctAnswer){
         correctNumber += 1;
@@ -124,10 +120,10 @@ startBtn.addEventListener("click",(e)=> {
 })
 
 setTimeout( () => {
-   grabQuestions("https://opentdb.com/api.php?amount=5")
+   grabQuestions("https://opentdb.com/api.php?amount=15&difficulty=easy")
 }, 2000)
 
-
+// going to refactor to be object oriented. 
 // class Quiz {
 //     constructor() {
 //     this.start = 0;
@@ -153,7 +149,7 @@ setTimeout( () => {
 
 //     }
 //     static grabQuestions() {
-//         return new Quiz().setQuestions("https://opentdb.com/api.php?amount=5");
+//       
 //     }
 // }
 
