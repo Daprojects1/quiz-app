@@ -28,7 +28,7 @@ const checkIfArrIsEmpty = () => {
 
 const checkIndex = (arrayLength) => {
     // index is the value that changes each time an answer is clicked
-    return (index >= arrayLength) ? wrapper.innerHTML = `<h1>You have completed the Quiz with ${correctNumber} points!</h1>` : false;    
+    return (index >= arrayLength) ? setTimeout (()=> wrapper.innerHTML=`<h1>You have completed the Quiz with ${correctNumber} points!</h1>`, 500) : false;    
 }
 const valueCreator = (name) => {
     return document.createElement(name)
@@ -103,7 +103,8 @@ const runCheck = (e, item) => {
     e.stopImmediatePropagation();
     listItems.map(item => item.classList.remove("main-li"))
     checkWin(e, item)
-    if (!checkIndex(resultsLength)) setTimeout(() => updateQs(item), 500)
+     if (!checkIndex(resultsLength)) setTimeout(() => updateQs(item), 400)  
+
 
 } 
 listItems.map(item => {
@@ -119,10 +120,8 @@ startBtn.addEventListener("click",(e)=> {
    interval = setInterval(checkIfArrIsEmpty, 500)
 })
 
-setTimeout( () => {
-   grabQuestions("https://opentdb.com/api.php?amount=15&difficulty=easy")
-}, 2000)
 
+grabQuestions("https://opentdb.com/api.php?amount=5")
 // going to refactor to be object oriented. 
 // class Quiz {
 //     constructor() {

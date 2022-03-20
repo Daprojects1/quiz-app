@@ -64,3 +64,7 @@ body {
 .main-li:hover {
   background-color: rgb(204, 199, 199);
 }
+
+.wrapper {
+  padding: 20px;
+}
