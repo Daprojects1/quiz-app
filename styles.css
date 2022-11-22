@@ -23,7 +23,7 @@ body {
 }
 
 .mainH2 {
-  border-bottom: 2px solid black;
+
   margin: 20px;
   padding: 30px;
   font-size: 1.5rem;
@@ -36,6 +36,7 @@ body {
   height: 600px;
   border-radius: 10px;
   border: 2px solid grey;
+  position: relative;
 }
 
 .SCD {
@@ -44,6 +45,7 @@ body {
   padding: 20px 90px;
   gap: 30px;
   list-style-type: circle;
+  border-top: 2px solid black;
 }
 
 .SCD li {
@@ -51,6 +53,26 @@ body {
   padding: 10px;
 }
 
+.span-info{
+  position: absolute;
+  right: 50px;
+  top: 20px;
+}
+
+.reset-btn{
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  background: rgb(11, 96, 103);
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.correct-border{
+  border: 1px solid green;
+}
 .green {
   background-color: green;
   color: white;
