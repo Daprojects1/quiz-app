@@ -1,7 +1,7 @@
 (() => {
-  let startBtn = document.querySelector(".start-btn");
-  let wrapper = document.querySelector(".wrapper");
-  let contentDiv = document.querySelector(".main-content");
+  const startBtn = document.querySelector(".start-btn");
+  const wrapper = document.querySelector(".wrapper");
+  const contentDiv = document.querySelector(".main-content");
 
   function* generator(totalLength) {
     for (let i = 0; i < totalLength; i++) {
@@ -107,7 +107,6 @@
                   start: true,
                 });
               }
-
               createQuiz(data, generator);
             });
 
