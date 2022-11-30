@@ -40,7 +40,6 @@
       }
 
       const displayQuestion = (singleData) => {
-        console.log(singleData);
         wrapper.innerHTML = "";
         const { correct_answer, incorrect_answers, question } = singleData;
         const answersArr = [correct_answer, ...incorrect_answers].sort(
@@ -72,47 +71,43 @@
           return li;
         });
 
-        (() => {
-          function handleClick() {
-            if (this.innerText !== correct_answer) {
-              // Wrong answer handling
-              this.classList.add("red");
-              const item = listItems.find(
-                (i) => i.innerText === correct_answer
-              );
-              item.classList.add("correct-border");
-            } else {
-              this.classList.add("green");
-              score += 5;
-            }
-
-            listItems.forEach((i) => {
-              i.removeEventListener("click", handleClick);
-              i.classList.remove("main-li");
-            });
-
-            // Creates a button to generate next quizQuestion or reset
-            const completed = value === data?.results?.length - 1;
-            const btn = elemCreator("button");
-
-            btn.innerText = completed ? "Get Score" : "Next";
-            btn.classList.add("reset-btn");
-            containerDiv.append(btn);
-
-            btn.addEventListener("click", () => {
-              if (completed) {
-                runQuiz(`https://opentdb.com/api.php?amount=10`, {
-                  start: true,
-                });
-              }
-              createQuiz(data, generator);
-            });
+        function handleClick(e) {
+          if (this.innerText !== correct_answer) {
+            // Wrong answer handling
+            this.classList.add("red");
+            const item = listItems.find((i) => i.innerText === correct_answer);
+            item.classList.add("correct-border");
+          } else {
+            this.classList.add("green");
+            score += 5;
           }
 
-          listItems.forEach((li) => {
-            li.addEventListener("click", handleClick);
+          listItems.forEach((i) => {
+            i.removeEventListener("click", handleClick);
+            i.classList.remove("main-li");
           });
-        })();
+
+          // Creates a button to generate next quizQuestion or reset
+          const completed = value === data?.results?.length - 1;
+          const btn = elemCreator("button");
+
+          btn.innerText = completed ? "Get Score" : "Next";
+          btn.classList.add("reset-btn");
+          containerDiv.append(btn);
+
+          btn.addEventListener("click", () => {
+            if (completed) {
+              runQuiz(`https://opentdb.com/api.php?amount=10`, {
+                start: true,
+              });
+            }
+            createQuiz(data, generator);
+          });
+        }
+
+        listItems.forEach((li) => {
+          li.addEventListener("click", handleClick);
+        });
       };
 
       displayQuestion(data.results[value]);
