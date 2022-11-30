@@ -1,7 +1,6 @@
 (() => {
   const startBtn = document.querySelector(".start-btn");
   const wrapper = document.querySelector(".wrapper");
-  const contentDiv = document.querySelector(".main-content");
 
   function* generator(totalLength) {
     for (let i = 0; i < totalLength; i++) {
@@ -10,9 +9,6 @@
   }
   const elemCreator = (name) => {
     return document.createElement(name);
-  };
-  const appender = (appendee, ...items) => {
-    items.map((item) => appendee.appendChild(item));
   };
 
   const runQuiz = (url, options) => {
@@ -61,25 +57,25 @@
         containerUl.classList.add("SCD");
         spanInfo.classList.add("span-info");
 
-        appender(containerDiv, h2, spanInfo, containerUl);
-        appender(wrapper, containerDiv);
+        containerDiv.append(h2, spanInfo, containerUl);
+        wrapper.append(containerDiv);
 
-        h2.innerHTML = question;
+        h2.innerText = question;
         spanInfo.innerText = `${value + 1}/${data?.results?.length}`;
 
         const listItems = answersArr.map((ans) => {
           const li = elemCreator("li");
           li.classList.add("main-li");
           li.innerText = ans;
-          appender(containerUl, li);
+          containerUl.append(li);
 
           return li;
         });
 
         (() => {
           function handleClick() {
-            // pattern error handling
             if (this.innerText !== correct_answer) {
+              // Wrong answer handling
               this.classList.add("red");
               const item = listItems.find(
                 (i) => i.innerText === correct_answer
@@ -95,12 +91,14 @@
               i.classList.remove("main-li");
             });
 
-            // add a button so that it can be used as a next btn
+            // Creates a button to generate next quizQuestion or reset
             const completed = value === data?.results?.length - 1;
-            const btn = elemCreator("btn");
-            btn.innerText = completed ? "reset" : "next";
+            const btn = elemCreator("button");
+
+            btn.innerText = completed ? "Get Score" : "Next";
             btn.classList.add("reset-btn");
-            appender(containerDiv, btn);
+            containerDiv.append(btn);
+
             btn.addEventListener("click", () => {
               if (completed) {
                 runQuiz(`https://opentdb.com/api.php?amount=10`, {
@@ -109,10 +107,6 @@
               }
               createQuiz(data, generator);
             });
-
-            //   setTimeout(() => {
-            //     createQuiz(data, generator);
-            //   }, 500);
           }
 
           listItems.forEach((li) => {
@@ -128,6 +122,7 @@
       once: true,
     });
 
+    // for resets after initial event listener click.
     if (options?.start) grabQuestions(createQuiz);
   };
 
