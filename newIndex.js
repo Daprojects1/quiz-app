@@ -40,6 +40,7 @@
       }
 
       const displayQuestion = (singleData) => {
+        console.log(singleData);
         wrapper.innerHTML = "";
         const { correct_answer, incorrect_answers, question } = singleData;
         const answersArr = [correct_answer, ...incorrect_answers].sort(
@@ -59,13 +60,13 @@
         containerDiv.append(h2, spanInfo, containerUl);
         wrapper.append(containerDiv);
 
-        h2.innerText = question;
+        h2.innerHTML = question;
         spanInfo.innerText = `${value + 1}/${data?.results?.length}`;
 
         const listItems = answersArr.map((ans) => {
           const li = elemCreator("li");
           li.classList.add("main-li");
-          li.innerText = ans;
+          li.innerHTML = ans;
           containerUl.append(li);
 
           return li;
