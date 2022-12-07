@@ -76,7 +76,10 @@
           if (this.innerText !== correct_answer) {
             // Wrong answer handling
             this.classList.add("red");
-            const item = listItems.find((i) => i.innerText === correct_answer);
+            const item = listItems.find((i) => i.innerHTML === correct_answer);
+            if (!item)
+              throw new Error("Sorry, there the innerHTML is different");
+
             item.classList.add("correct-border");
           } else {
             this.classList.add("green");
